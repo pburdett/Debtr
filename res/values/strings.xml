@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Debt\'r</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="account_name">Account 1</string>
+    <string name="description">Description</string>
+    <string name="users">Users</string>
+    <string name="action_newdebt">Add New Account</string>
+    <string name="newdebt_title">New Account</string>
+    <string name="newperson">Add new debt\'r</string>
+    <string name="save">Save</string>
+    <string name="viewdebtr_title">View Debt\'r</string>
+    <string name="newevent_title">New Bill</string>
+    <string name="datebutton">Enter Date</string>
+    <string name="spinnerdefaultText">Select Payee</string>
+    <string name="saveevent">Save Event</string>
+    <string name="action_save">Save!!</string>
+    <string name="ViewBills">View Bills</string>
+    <string name="EventName">Bill Name:</string>
+    <string name="eventamount">Bill Amount:</string>
+    <string name="payee">Payee:</string>
+    <string name="howsplit">How was it split?</string>
+    <string name="billdate">Bill Date:</string>
+    <string name="allother">All Other</string>
+    <string name="equalsplit">Equal Split</string>
+    <string name="other">other</string>
+    <string name="viewbill">View Bills</string>
+    <string name="addbill">Add New Bill</string>
+    <string name="export">Export Debt\'r</string>
+    <string name="accountname">Account Name</string>
+    <string name="nodebtrmessage1">There are no Accounts set up.</string>
+    <string name="nodebtrmessage2"> Click on top right to start....</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="photo">Photo</string>
+    
+    
+</resources>
