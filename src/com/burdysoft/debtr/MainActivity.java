@@ -1,10 +1,10 @@
 package com.burdysoft.debtr;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import helper.DatabaseHelper;
+import helper.Debtr;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -14,118 +14,114 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.burdysoft.debtr.resources.AllDebtr;
-import com.burdysoft.debtr.resources.Debtr;
 import com.burdysoft.debtr.resources.DebtrListAdapter;
-import com.burdysoft.debtr.resources.FileSaving;
-import com.burdysoft.debtr.resources.JsonMapper;
+import com.burdysoft.debtr.resources.DebtrDeletedListAdapter;
 
 public class MainActivity extends ActionBarActivity  {
 
-	AllDebtr alldebtr;
 	Activity content = this;
 	Context context = this;
 	
+	DatabaseHelper db;
+	List<Debtr> debtrs;
+
+    String status;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		//try and load up the file...
-		boolean exists = false;
-		
-	
-		try {
-			alldebtr = FileSaving.readFile(content);
-			exists = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-		if(savedInstanceState ==null ) {
-			System.out.println("SavedInstancState is null");
-		} else {
-			System.out.println("SavedInstancState is NOT null");
-		}
-		
-		System.out.println("Main: onCreate");
 		super.onCreate(savedInstanceState);
+
+		db = new DatabaseHelper(getApplicationContext());
 		
-		if (exists == false) {
-			//we have no debtr's so we need a different page
-			setContentView(R.layout.nodebtr);
+		
+		//try and get all the Debtr objects from the database
+		
+		debtrs = new ArrayList<Debtr>();
+
+		try {
+			status = getIntent().getExtras().getString("status");
 			
+			System.out.println("My Status " + status);
+			
+			if (status.matches("Active")) {
+				debtrs = db.getAllActiveDebtr();
+				System.out.println("My Status " + status);
+				
+			} else if (status.matches("Deleted")) {
+				debtrs = db.getAllDeletedDebtr();
+				System.out.println("My Status " + status);
+				
+			} else if (status.matches("Settled")) {
+				System.out.println("My Status " + status);
+				debtrs = db.getAllSettledDebtr();
+				
+			} 
+			
+		} catch (Exception e) { 
+			e.printStackTrace();
+			
+			//if we can't get anywhere then we show all active.
+			debtrs = db.getAllActiveDebtr();
+			status = "Active";
+		}
+		
+		
+		if (debtrs.size() == 0) {
+            //then we don't have anything in the db, so lets make a view saying add!
+            setContentView(R.layout.nodebtr);
+            return;
+
+    /*    } else if (status.matches("Deleted")) {
+            setContentView(R.layout.main_deleted);
+            TextView statustv = (TextView) findViewById(R.id.status);
+            statustv.setText(status);
+      */
 		} else {
-			
 			setContentView(R.layout.activity_main);
-			ListView list=(ListView)findViewById(R.id.debtrlist);
-			
-	
-	
-			
-			
-			
-			
-			
-			
-			
-			if (exists == true) {
-				//If we have opened a file succesfully, do something with the data;
-				ArrayList<Debtr> debtrlist = alldebtr.getDebtrList();
-				
-				
-				
-				//fill in the listview
-		        DebtrListAdapter adapter=new DebtrListAdapter(this, debtrlist, content);
-		        list.setAdapter(adapter);
-				
-		        int x = debtrlist.size();
-				
-				for (int i=0; i<x; i++) {
-					System.out.println(debtrlist.get(i).getName());
-				}
-		        
-				
-			}
-			
-			
-			
-			
+			TextView statustv = (TextView) findViewById(R.id.status);
+			statustv.setText(status);
 			
 		}
-			
-			
-			//Does the app already exist?
-			try {
-				if (getIntent().getExtras().getBoolean("Exists") == true) {
-					//This is what we are doing if the app has already been running
-					
-				}
-			} catch (Exception e) {
-				// This is what we do if the app didn't exist at start up
-			
-			}
 		
 		
+		//Now do whatever we need to do...
 			
-		
+		//fill in the listview depending on what we are looking at...
+		ListView list=(ListView)findViewById(R.id.debtrlist);
 
-		
-		
-		
-		
+        if (status.matches("Deleted")) {
+            DebtrDeletedListAdapter adapter=new DebtrDeletedListAdapter(this, debtrs, content);
+            list.setAdapter(adapter);
+        } else {
+            DebtrListAdapter adapter=new DebtrListAdapter(this, debtrs, content);
+            list.setAdapter(adapter);
+        }
+        
+        //close the database connection
+        db.close();
 		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+        //select the menu dependent on whether we are active, deleted, settled etc.
+        if (status.matches("Active")) {
+            getMenuInflater().inflate(R.menu.main, menu);
+
+        } else if (status.matches("Deleted")) {
+            getMenuInflater().inflate(R.menu.maindeleted, menu);
+
+        } else if (status.matches("Settled")) {
+            //Note this needs to be changed
+            getMenuInflater().inflate(R.menu.maindeleted, menu);
+        }
+
+        return true;
+
 	}
 
 	@Override
@@ -138,10 +134,28 @@ public class MainActivity extends ActionBarActivity  {
 			Intent intent = new Intent(this, NewDebt.class);
 			intent.putExtra("Activity", this.getLocalClassName());
 			intent.putExtra("Exists", true);
-			intent.putExtra("Debtr", JsonMapper.writeJSON(alldebtr));
+			startActivity(intent);
+			return true;
+		/*} else if (id == R.id.settled) {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("Activity", this.getLocalClassName());
+			intent.putExtra("status", "Settled");
+			startActivity(intent);
+			return true; */
+		} else if (id == R.id.deleted) {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("Activity", this.getLocalClassName());
+			intent.putExtra("status", "Deleted");
+			startActivity(intent);
+			return true;
+		} else if (id == R.id.active) {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("Activity", this.getLocalClassName());
+			intent.putExtra("status", "Active");
 			startActivity(intent);
 			return true;
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -187,20 +201,5 @@ public class MainActivity extends ActionBarActivity  {
 		super.onStart();
 	}
 	
-	public void saveData(ArrayList<Debtr> d) {
-		System.out.println("Called");
-		
-		AllDebtr ad = new AllDebtr();
-		ad.setDebtrList(d);
-		
-		try {
-			FileSaving.saveFile(ad, content);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-
-		
-	}
 
 }

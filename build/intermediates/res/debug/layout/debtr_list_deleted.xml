@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/LightGrey" >
+
+
+    <TextView
+        android:id="@+id/debtrname"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip" />
+
+
+
+
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/debtr_list_deleted.xml -->

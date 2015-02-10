@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/LightGrey" >
+    
+    
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:text="Sample Name"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip" />
+    
+    
+
+    <TextView
+        android:id="@+id/debt"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+    
+
+
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/people_list_debt_summary.xml -->

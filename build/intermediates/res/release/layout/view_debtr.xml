@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/LightGrey" >
+
+    <TextView
+        android:id="@+id/debtrname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serfi-thin"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:textStyle="italic"
+        android:layout_below="@+id/debtrname" />
+
+    <LinearLayout
+        android:id="@+id/datelinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/description" >
+
+        <TextView
+            android:id="@+id/datetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Date:"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"/>
+
+
+    </LinearLayout>
+
+
+
+    <View
+        android:id="@+id/horizontalline"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:layout_width="fill_parent"
+        android:background="@color/gray"
+        android:layout_below="@+id/datelinear"
+        />
+
+
+        <LinearLayout
+            android:id="@+id/allitems"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/horizontalline"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/peoplelistlinear"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1">
+
+                    <ListView
+                        android:id="@+id/peoplelistdebt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#b5b5b5"
+                        android:dividerHeight="1dp"
+                        android:descendantFocusability="beforeDescendants"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/viewbillLinear"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="25dp">
+
+                    <ListView
+                        android:id="@+id/viewbills"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#b5b5b5"
+                        android:dividerHeight="1dp"
+                        android:descendantFocusability="beforeDescendants"  />
+
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/dislaimerlinear"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                android:id="@+id/disclaimer"
+                android:text="@string/disclaimer"
+                android:textStyle="italic"
+                android:textSize="12dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"/>
+
+
+            </LinearLayout>
+
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/view_debtr.xml -->

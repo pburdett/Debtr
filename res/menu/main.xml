@@ -9,5 +9,28 @@
         android:title="@string/action_newdebt"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_add"/>
+    
+    
+   <!-- <item
+        android:id="@+id/settled"
+        android:orderInCategory="200"
+        android:title="@string/action_settled"
+        app:showAsAction="never"/>
+    -->
+
+
+    <item
+        android:id="@+id/deleted"
+        android:orderInCategory="300"
+        android:title="@string/action_deleted"
+        app:showAsAction="never"/>
+    
+    <item
+        android:id="@+id/active"
+        android:orderInCategory="400"
+        android:title="@string/action_active"
+        app:showAsAction="never"/>
+    
+    
 
 </menu>

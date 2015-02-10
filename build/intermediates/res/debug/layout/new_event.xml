@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/LightGrey"
+    android:orientation="vertical" >
+
+
+    
+    
+    <RelativeLayout
+        android:id="@+id/relLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentTop="true">
+        
+        <TextView
+        	android:id="@+id/EventName"
+        	android:layout_marginLeft="20dp"
+        	android:layout_width="100dp"
+        	android:layout_height="wrap_content"
+        	android:text="@+string/EventName"
+        	android:layout_alignParentLeft="true"
+        	android:layout_centerVertical="true"
+        	android:textSize="15sp"
+        	android:textStyle="bold"
+        	android:focusable="true" />
+        
+        <EditText
+      		android:id="@+id/name"
+      		android:layout_toRightOf="@+id/EventName"
+      		android:layout_marginRight="10dp"
+      		android:layout_marginLeft="10dp"
+        	android:layout_width="fill_parent"
+        	android:layout_height="50dp" />
+        
+    </RelativeLayout>
+    
+    <LinearLayout
+		android:id="@+id/datelayout"
+		android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relLayout"
+        android:layout_marginTop="5dp">
+        
+        <TextView
+        	android:id="@+id/Date"
+        	android:layout_marginLeft="20dp"
+        	android:textSize="15sp"
+        	android:textStyle="bold"
+        	android:layout_width="100dp"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_vertical"
+        	android:text="@string/billdate" />
+        
+        <TextView
+            android:id="@+id/eventdate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp" />
+
+       
+        
+        
+    </LinearLayout>
+    
+    
+    
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_toRightOf="@+id/datelayout"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relLayout"
+        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:contentDescription="@string/photo" 
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+    
+    
+    
+    <LinearLayout
+        android:id="@+id/amountlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/datelayout"
+        android:layout_marginTop="5dp">
+        
+        <TextView
+        	android:id="@+id/EventAmount"
+        	android:layout_width="100dp"
+        	android:layout_height="wrap_content"
+        	android:text="@+string/eventamount"
+        	android:textStyle="bold"
+        	android:textSize="15sp"
+        	android:layout_marginLeft="20dp"/>
+        
+ 	   <EditText
+        	android:id="@+id/amount"
+        	android:layout_width="100dp"
+        	android:layout_height="50dp"
+        	android:layout_marginLeft="15dp"
+        	android:inputType="numberDecimal"/>"
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/payeelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/amountlayout"
+        android:layout_marginTop="5dp">
+ 	   
+        <TextView
+        	android:id="@+id/EventPayee"
+        	android:layout_width="100dp"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_vertical"
+        	android:text="@+string/payee"
+        	android:layout_marginLeft="20dp"
+        	android:textStyle="bold"
+        	android:textSize="15sp"/>
+        
+        <Spinner
+            android:id="@+id/payee_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:prompt="@string/spinnerdefaultText"
+        	android:drawSelectorOnTop="true"/>
+         <!--    android:spinnerMode="dialog"  --> 
+        
+        
+    </LinearLayout>
+    
+    
+    <View
+    	android:id="@+id/line1"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginBottom="5dp"
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dip"
+    	android:background="@color/gray"
+    	android:layout_below="@+id/payeelayout"/>
+    
+    
+  <LinearLayout
+        android:id="@+id/eventsplitlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1">
+        
+
+ 	   
+        <TextView
+        	android:id="@+id/EventSplit"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_marginLeft="20dp"
+        	android:text="@+string/howsplit"
+        	android:textStyle="bold"
+        	android:textSize="15sp"/>"
+
+    </LinearLayout>
+    
+    
+	<RelativeLayout
+	    android:id="@+id/radiogrouprel"
+	    android:layout_below="@+id/eventsplitlayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	     >"
+	    
+  
+    <RadioGroup
+         android:id="@+id/radio_split"
+         android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        >
+        
+	     <RadioButton
+	            android:id="@+id/split1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/equalsplit"
+	            android:layout_marginLeft="20dp"/>
+	    
+	     
+	     <RadioButton
+	            android:id="@+id/split2"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/allother"
+	            android:layout_marginLeft="20dp"/>
+	     
+	     
+	     <RadioButton
+	            android:id="@+id/split3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/other"
+	            android:layout_marginLeft="20dp"/>
+	    
+     </RadioGroup>
+     
+    </RelativeLayout>
+    
+	<View
+    	android:id="@+id/line2"
+    	android:layout_width="fill_parent"
+    	android:layout_marginTop="5dp"
+    	android:layout_height="1dip"
+    	android:background="#b5b5b5"
+    	android:layout_below="@+id/radiogrouprel"/>
+		
+	
+      <ListView
+        	android:id="@+id/peoplelist"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:divider="#b5b5b5"
+        	android:dividerHeight="1dp"
+        	android:descendantFocusability="beforeDescendants"
+        	android:layout_below="@+id/line2"/>
+      
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/new_event.xml -->

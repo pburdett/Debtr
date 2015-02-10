@@ -1,6 +1,9 @@
 package com.burdysoft.debtr.resources;
 
-import java.util.ArrayList;
+import helper.DatabaseHelper;
+import helper.Debtr;
+
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,13 +26,13 @@ public class DebtrListAdapter extends BaseAdapter implements OnClickListener {
  
 	private Context context;
     private Activity activity;
-    private ArrayList<Debtr> data;
+    private List<Debtr> data;
     private static LayoutInflater inflater=null;
 	
-	
+	DatabaseHelper db;
 	
  
-    public DebtrListAdapter(Activity a, ArrayList<Debtr> d, Context context) {
+    public DebtrListAdapter(Activity a, List<Debtr> d, Context context) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +64,7 @@ public class DebtrListAdapter extends BaseAdapter implements OnClickListener {
  
         // Setting all values in listview
         debtrname.setText(debtr.getName());
-        debtrname.setTag(position);
+        debtrname.setTag(debtr.getId());
         
         //set the controls of the delete button
         ImageButton deletebutton= (ImageButton)  vi.findViewById(R.id.deletebutton);
@@ -78,9 +81,14 @@ public class DebtrListAdapter extends BaseAdapter implements OnClickListener {
                     public void onClick(DialogInterface dialog, int which) { 
                         // continue with delete
                     	
+                    	int debtr_id = data.get(position).getId();
+                    	
                     	data.remove(position);
                         notifyDataSetChanged();
-                        ((MainActivity)context).saveData(data);
+                      
+                        db = new DatabaseHelper((MainActivity)context);
+                        db.inactiveDebtr(debtr_id);
+                 //       ((MainActivity)context).saveData(data);
                     	
                     }
                  })

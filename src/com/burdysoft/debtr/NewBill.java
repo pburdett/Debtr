@@ -1,31 +1,28 @@
 package com.burdysoft.debtr;
 
+import helper.DatabaseHelper;
+import helper.Debtr;
+import helper.Event;
+import helper.People;
+import helper.Split;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
-import com.burdysoft.debtr.resources.AllDebtr;
-import com.burdysoft.debtr.resources.Debtr;
 import com.burdysoft.debtr.resources.DecimalInputFilter;
-import com.burdysoft.debtr.resources.Event;
-import com.burdysoft.debtr.resources.FileSaving;
 import com.burdysoft.debtr.resources.NewPayeeSpinner;
-import com.burdysoft.debtr.resources.People;
 import com.burdysoft.debtr.resources.PeopleSplitAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -50,8 +47,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class NewBill extends ActionBarActivity {
 	
-	AllDebtr alldebtr;
-	int position;
+	int debtr_id;
 	Debtr debtr; 
 	Activity content = this;
 	
@@ -77,12 +73,14 @@ public class NewBill extends ActionBarActivity {
     EditText amount_et;
     Spinner  SpinnerPayee;
     
-    ArrayList<People> people;
+    List<People> peoples;
     ArrayList<HashMap<String,String>> peoplevaluelist;
     SimpleAdapter adapter;
     PeopleSplitAdapter adapter2;
     
     AlertDialog alertDialog;
+    
+    DatabaseHelper db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,26 +88,26 @@ public class NewBill extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_event);
 		
-		//Load the file
-		alldebtr = FileSaving.readFile(content);
+		db = new DatabaseHelper(getApplicationContext());
 		
-				
+					
 		//get the details of what I am playing with
-		position = Integer.parseInt(getIntent().getExtras().getString("DebtrRef"));	
-		debtr = alldebtr.getDebtrList().get(position);
+		debtr_id = Integer.parseInt(getIntent().getExtras().getString("DebtrRef"));	
 		
+		//get the people associated with the debtr
+		peoples = db.getAllPeopleDebtrID(debtr_id);
 		
-		people = debtr.getDebtors();
-		
+		System.out.println("Peoples return " + peoples.size() + " rows");
 		
 		 peoplevaluelist = new ArrayList<HashMap<String,String>>();
          HashMap<String,String> peoplevalueitem;
          
          
-         for (int j=0; j< people.size();j++) {
+         for (int j=0; j< peoples.size();j++) {
         	 peoplevalueitem = new HashMap<String,String>();
-        	 peoplevalueitem.put("line1",people.get(j).getName());
+        	 peoplevalueitem.put("line1",peoples.get(j).getName());
         	 peoplevalueitem.put("line2","0.00");
+        	 peoplevalueitem.put("id", Integer.toString(peoples.get(j).getId()));
         	 peoplevaluelist.add(peoplevalueitem);
          }
          
@@ -136,8 +134,6 @@ public class NewBill extends ActionBarActivity {
 		
 		
 		
-		
-		
 		//Set Current Date
         //Set Date things
         
@@ -150,7 +146,7 @@ public class NewBill extends ActionBarActivity {
         dateText.setText(new StringBuilder()
         // Month is 0 based, just add 1
         .append(day).append("-").append(month+1).append("-")
-        .append(year).append(" "));
+        .append(year));
         
    
          
@@ -176,7 +172,7 @@ public class NewBill extends ActionBarActivity {
          Resources res =getResources();
          
          // Create custom adapter objec
-         nps = new NewPayeeSpinner(activity, R.layout.event_payee_spinner, people,res);
+         nps = new NewPayeeSpinner(activity, R.layout.event_payee_spinner, peoples,res);
          
          // Set adapter to spinner
          SpinnerPayee.setAdapter(nps);
@@ -267,8 +263,7 @@ public class NewBill extends ActionBarActivity {
             // Show selected date 
             TextView dateText = (TextView) findViewById(R.id.eventdate);
             dateText.setText(new StringBuilder().append(day)
-                    .append("-").append(month + 1).append("-").append(year)
-                    .append(" "));
+                    .append("-").append(month + 1).append("-").append(year).append(" "));
      
            }
         };
@@ -308,7 +303,7 @@ public class NewBill extends ActionBarActivity {
    		 
 
    		 //how many People do we have
-   		 int numPeople = people.size();
+   		 int numPeople = peoples.size();
    		 
    		 //find which radio button we are talking baout...
    		 RadioButton whichbutton = (RadioButton) findViewById(checkedId);
@@ -381,91 +376,74 @@ public class NewBill extends ActionBarActivity {
 			EditText eventname_et = (EditText) findViewById(R.id.name);
 			String eventname = eventname_et.getText().toString(); 
 			
-			int payeeId = SpinnerPayee.getSelectedItemPosition();
-			String payeename = people.get(payeeId).getName();
+//		
+			int payee_id = (int) ((People) SpinnerPayee.getSelectedItem()).getId();
+			
 			
 			float amount = Float.parseFloat(amount_et.getText().toString());
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 	  	  	TextView dateView = (TextView) findViewById(R.id.eventdate);
 	  	  	Date datetime = null;
 	  	  
 			try {
 				datetime = formatter.parse(dateView.getText().toString());
+				System.out.println("datetime: " + datetime);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-	
-			//how many event's do we already have
-			int x = 0;
-			try {
-				x = debtr.getDebtevent().size();
-			} catch (Exception e) {
-				e.printStackTrace();
-				x = -1;
-			}
 			
 			Event ev = new Event();
-			ev.setDebtid(position);
-			ev.setEventid(x+1);
-			ev.setDate(datetime);
 			ev.setName(eventname);
-			ev.setPayee(payeename);
+			ev.setDate(datetime.toString());
+		System.out.println(datetime.toString());
+			//	ev.setDate(datetime);
 			ev.setCost(amount);
-			ev.setSplit(peoplevaluelist);
+			ev.setPayee_id(payee_id);
+			ev.setDebtr_id(debtr_id);
 			
-			if (taken = true) {
-				ev.setPhototaken(true);
+			if (taken == true) {
+				ev.setPhototaken(1);
 				ev.setPhotofile(photofilename);
 			} else {
-				ev.setPhototaken(false);
+				ev.setPhototaken(0);
 				ev.setPhotofile("");
 			}
 			
 			
-			//add the Event to our debtr object.
-			if (x==-1) {
-				//we need create a debt event array
-				ArrayList<Event> debteventarray = new ArrayList<Event>();
-				debteventarray.add(ev);
-				debtr.setDebtevent(debteventarray);
-			} else {
-				//else we just add to the existing array
-				debtr.getDebtevent().add(ev);
+			
+			
+			
+			int event_id = (int) db.createEvent(ev);
+			
+			
+			
+			for (int i = 0; i<peoples.size(); i++) {
+				
+				Split split = new Split();
+				split.setEvent_id(event_id);
+				split.setAmount(Float.parseFloat(peoplevaluelist.get(i).get("line2")));
+				split.setPeople_id(Integer.parseInt(peoplevaluelist.get(i).get("id")));
+						
+				db.createSplit(split);
 			}
 			
 			
+			db.close();
 			
-			System.out.println("This is Event no " + Integer.toString((x+1)));
-			
-			//now we need to save the data
-			try {
-								
-				FileSaving.saveFile(alldebtr, content);
 				
 				//launch my new intent
 				Intent intent = new Intent(content, ViewDebtr.class);
-				intent.putExtra("DebtrRef",Integer.toString(position));
+				intent.putExtra("DebtrRef",Integer.toString(debtr_id));
 				
 				startActivity(intent);
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-				//Error somewhere!!!
-				
-			}
-			
+					
 		} 			
-	
-		
-		
-		
 		
 	}
-
-
+	
+	
+	
 	public boolean billCheck() {
 		
 		//get the amount we actually have
@@ -473,7 +451,7 @@ public class NewBill extends ActionBarActivity {
 		float total = 0;
 		
 		//get the sum of the values in the ListView
-		for (int i=0; i<debtr.getDebtors().size(); i++) {
+		for (int i=0; i<peoplevaluelist.size(); i++) {
 			total = total + Float.parseFloat(peoplevaluelist.get(i).get("line2"));
 			System.out.println(peoplevaluelist.get(i).get("line2"));
 		}
@@ -528,8 +506,6 @@ public class NewBill extends ActionBarActivity {
 		
 		System.out.println("how many files?" + counter);
 		
-		
-//		photofilename = photofilename + 
 		
 		photofilename = photofilename + counter + ".jpg";
 	    File file = new File( photofilename );

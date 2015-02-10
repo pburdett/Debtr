@@ -1,20 +1,15 @@
 package com.burdysoft.debtr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import helper.DatabaseHelper;
+import helper.Debtr;
+import helper.People;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.burdysoft.debtr.resources.AllDebtr;
-import com.burdysoft.debtr.resources.FileSaving;
-import com.burdysoft.debtr.resources.People;
 import com.burdysoft.debtr.resources.PeopleListAdapter;
-import com.burdysoft.debtr.resources.Debtr;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -37,7 +31,7 @@ public class NewDebt extends ActionBarActivity {
 	
 	ListView list;
     PeopleListAdapter adapter;
-    static ArrayList<People> peopleList = new ArrayList<People>();
+    static ArrayList<String> peopleList = new ArrayList<String>();
     Activity content = this;
 	
 
@@ -55,7 +49,7 @@ public class NewDebt extends ActionBarActivity {
 		if(savedInstanceState ==null ) {
 			//it means we havent't rotated the screen, so add a default person to the list
 			peopleList.clear(); //clear incase we have some poeple in the list already
-			peopleList.add(new People("Me"));
+			peopleList.add("Me");
 		} else {
 			//we have come from a rotated screen
 			
@@ -83,7 +77,7 @@ public class NewDebt extends ActionBarActivity {
             	
             	
         		String newname = new_person.getText().toString();
-        		peopleList.add(new People(newname));
+        		peopleList.add(newname);
         		System.out.println("We are here " + newname);
         		list.setAdapter(adapter);
         		new_person.setText("Add new debt'r");
@@ -177,15 +171,16 @@ public class NewDebt extends ActionBarActivity {
 
 	public void createAccount() {
 		
+		DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+		
 		EditText description = (EditText) findViewById(R.id.account_description);
 		EditText name = (EditText) findViewById(R.id.account_name);
 		
 		//ensure newaccount is empty.
 		Debtr newaccount = new Debtr();
 		
-		newaccount.setDebtors(peopleList);
-		newaccount.setDescription(description.getText().toString());
 		newaccount.setName(name.getText().toString());
+		newaccount.setDescription(description.getText().toString());
 		
 		//create todays date
 		Calendar c = new GregorianCalendar();
@@ -193,57 +188,34 @@ public class NewDebt extends ActionBarActivity {
 	    c.set(Calendar.MINUTE, 0);
 	    c.set(Calendar.SECOND, 0);
 	    Date d1 = c.getTime(); 
-		newaccount.setDate(d1);
+		newaccount.setDate(d1.toString());
+		System.out.println(d1.toString());
 		
-		//create a variable we need for later.
-		int debtrref;
-		boolean exists = false;
-		AllDebtr alldebtr = new AllDebtr();
 		
-		//Try and load existing AllDebtr object from file
-		try  {
-
-			alldebtr = FileSaving.readFile(content);
-			exists = true;
-
-			System.out.println("Opened");
+		//insert the Debtr into the table
 		
-		} catch (Exception e) {
-			e.printStackTrace();
+		long debtr_id;
+		debtr_id = db.createDebtr(newaccount);
+		
+		
+		
+		
+		for (int i = 0 ; i < peopleList.size(); i++) {
+			
+			People people = new People();
+			people.setName(peopleList.get(i));
+			people.setDebtr_id((int)debtr_id);
+			
+			//long people_id = db.createPeople(people);
+			db.createPeople(people);
 		}
 		
 		
-		if (exists == true) {
-			
-			//if it does exist, then just add the current Debt obj to the AllDebtr obr
-			alldebtr.getDebtrList().add(newaccount);
-			debtrref = alldebtr.getDebtrList().size() - 1;
+		db.close();
 		
-		} else {
-			
-			//if it doesn't exist create one
-			
-			ArrayList<Debtr> debtrarraylist = new ArrayList<Debtr>();
-			debtrarraylist.add(newaccount);
-			alldebtr.setDebtrList(debtrarraylist);
-			debtrref = debtrarraylist.size() - 1;
-			
-		}
-
-		
-			
-		
-		//save the file again
-		try {
-			FileSaving.saveFile(alldebtr, content);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-			
 			
 		Intent intent = new Intent(content, MainActivity.class);
-		intent.putExtra("DebtrRef",debtrref);
-		intent.putExtra("Exists", true);
+		intent.putExtra("DebtrRef",debtr_id);
 		
 		
 		startActivity(intent);

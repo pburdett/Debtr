@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+  >
+
+    <item
+        android:id="@+id/addbill"
+        android:title="@string/addbill"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="1"/>
+
+    <item
+        android:id="@+id/export"
+        android:title="@string/export"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:orderInCategory="2"/>
+        
+        
+</menu>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/menu/viewdebtrmenu.xml -->

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+  >
+
+    <item
+        android:id="@+id/saveevent"
+        android:title="@string/save"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_save" />
+
+</menu>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/menu/newaccountmenu.xml -->

@@ -1,7 +1,9 @@
 package com.burdysoft.debtr.resources;
 
 
-import java.util.ArrayList;
+import helper.People;
+
+import java.util.List;
 
 import com.burdysoft.debtr.NewBill;
 import com.burdysoft.debtr.R;
@@ -18,7 +20,7 @@ import android.widget.TextView;
 public class NewPayeeSpinner extends ArrayAdapter<String>  {
 
         private Activity activity;
-        private ArrayList data;
+        private List<?> data;
         public Resources res;
         People tempValues=null;        
         private static LayoutInflater inflater=null;
@@ -26,10 +28,7 @@ public class NewPayeeSpinner extends ArrayAdapter<String>  {
         
         
 
-        public NewPayeeSpinner(NewBill activitySpinner, 
-                int textViewResourceId,   
-                ArrayList objects,
-                Resources resLocal) {
+        public NewPayeeSpinner(NewBill activitySpinner, int textViewResourceId,  List objects, Resources resLocal) {
         		
         	super(activitySpinner, textViewResourceId, objects);
         
@@ -79,6 +78,7 @@ public class NewPayeeSpinner extends ArrayAdapter<String>  {
            
                 // Set values for spinner each row 
                 label.setText(tempValues.getName());
+                label.setTag(tempValues.getId());
             
      
             return row;

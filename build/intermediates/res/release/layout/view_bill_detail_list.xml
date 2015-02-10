@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:background="@color/white" >
+    
+    <RelativeLayout 
+        android:id="@+id/clickable"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical">
+        
+ 
+    
+    <TextView
+  
+        android:id="@+id/date"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip" />
+    
+    <TextView
+  
+        android:id="@+id/billname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/date"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"/>
+
+    <TextView
+  
+        android:id="@+id/payee"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/date"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip" />
+    
+  <TextView
+  
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/billname"
+        android:layout_toRightOf="@+id/payee"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip" />
+  
+  	</RelativeLayout>
+  
+  <ImageView
+      android:id="@+id/billpic"
+      android:layout_gravity="center_vertical"
+      android:layout_width="50dp"
+      android:layout_height="fill_parent"/>
+    
+
+</LinearLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/view_bill_detail_list.xml -->

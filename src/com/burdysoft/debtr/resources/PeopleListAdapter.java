@@ -1,5 +1,7 @@
 package com.burdysoft.debtr.resources;
 
+import helper.People;
+
 import java.util.ArrayList;
 
 import com.burdysoft.debtr.R;
@@ -19,12 +21,12 @@ import android.widget.TextView;
 public class PeopleListAdapter extends BaseAdapter implements OnClickListener {
  
     private Activity activity;
-    private ArrayList<People> data;
+    private ArrayList<String> data;
     private static LayoutInflater inflater=null;
  
-    public PeopleListAdapter(Activity a, ArrayList<People> d) {
+    public PeopleListAdapter(Activity a, ArrayList<String> peopleList) {
         activity = a;
-        data=d;
+        data=peopleList;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
  
@@ -48,11 +50,11 @@ public class PeopleListAdapter extends BaseAdapter implements OnClickListener {
         
         final TextView name = (TextView)vi.findViewById(R.id.name); // name
  
-        People person = new People();
+        String person = "";
         person = data.get(position);
  
         // Setting all values in listview
-        name.setText(person.getName());
+        name.setText(person);
         
         //set the controls of the edit button
         ImageButton editbutton= (ImageButton)  vi.findViewById(R.id.editbutton);

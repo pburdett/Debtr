@@ -34,6 +34,10 @@
     <string name="nodebtrmessage2"> Click on top right to start....</string>
     <string name="add_photo">Add Photo</string>
     <string name="photo">Photo</string>
+    <string name="action_active">Show Active Debtr</string>
+    <string name="action_settled">Show Settled Debtr</string>
+    <string name="action_deleted">Show Deleted Debtr</string>
+    <string name="disclaimer">Note: Positive values denote credits. Negatives denote a debt</string>
     
     
 </resources>

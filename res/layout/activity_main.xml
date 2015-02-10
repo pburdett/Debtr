@@ -5,9 +5,32 @@
     android:background="@color/LightGrey" >
 
         
+    
+		<LinearLayout 
+		    android:id="@+id/linlayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="50dp"
+		    android:background="@color/gray"
+		    android:layout_alignParentTop="true"
+		    
+		    >
+		    
+		    <TextView 
+		        android:id="@+id/status"
+		        android:layout_marginLeft="20dp"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:textStyle="bold"
+		        android:textSize="20sp"
+		        android:layout_gravity="center_vertical"
+		        />
+		    
+		</LinearLayout>    
+    
         
         <ListView
         	android:id="@+id/debtrlist"
+        	android:layout_below="@+id/linlayout"
         	android:layout_width="fill_parent"
         	android:layout_height="fill_parent"
         	android:divider="#b5b5b5"

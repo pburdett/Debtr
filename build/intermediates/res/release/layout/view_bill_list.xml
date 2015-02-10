@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/LightGrey" >
+    
+    
+    <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dip"
+    	android:background="@color/gray"
+    	android:layout_alignParentTop="true"/>
+    
+    <TextView
+  
+        android:id="@+id/viewbill"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:gravity="bottom"
+        android:layout_marginLeft="20dp"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15sp"
+        android:text="@string/viewbill" />
+    
+    <TextView
+  
+        android:id="@+id/chev"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15sp"
+        android:text=">" />
+    
+    <TextView
+        android:id="@+id/billsummary"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/viewbill"
+        android:gravity="top"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentLeft="true"
+        android:textStyle="italic"
+        android:textSize="12sp" />"
+
+    <View
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dip"
+    	android:background="@color/gray"
+    	android:layout_below="@+id/billsummary"
+	/>
+    
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/Peter/ADT/workspace/Debtr/res/layout/view_bill_list.xml -->
